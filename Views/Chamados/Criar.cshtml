@@ -1,0 +1,65 @@
+@model HelpDeskMvc.Models.CriarChamadoViewModel
+
+@{
+    ViewData["Title"] = "Garantia De Produtos";
+}
+
+<div class="container mt-4"> <h1>Garantia De Produtos</h1> <hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Criar" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Descricao" class="form-label">Descrição do produto</label>
+                <textarea asp-for="Descricao" class="form-control" rows="5"
+                          placeholder="Descreva o produto"></textarea>
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ClienteNome" class="form-label">Nome do cliente</label>
+                <input asp-for="ClienteNome" class="form-control" placeholder="Digite seu nome completo" />
+                <span asp-validation-for="ClienteNome" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Telefone" class="form-label">Telefone para contato</label>
+                <input asp-for="Telefone" class="form-control" placeholder="(00) 00000-0000" />
+                <span asp-validation-for="Telefone" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Endereco" class="form-label">Endereço para retirada ou atendimento</label>
+                <input asp-for="Endereco" class="form-control" placeholder="Rua, número, bairro" />
+                <span asp-validation-for="Endereco" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Complemento" class="form-label">Complemento</label>
+                <input asp-for="Complemento" class="form-control" placeholder="Apartamento, bloco, ponto de referência" />
+                <span asp-validation-for="Complemento" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Enviar solicitação
+            </button>
+
+            <a asp-controller="Chamados"
+               asp-action="Index"
+               class="btn btn-secondary">
+                Voltar
+            </a>
+
+        </form>
+    </div>
+</div>
+
+</div>
+
+@section Scripts {
+@{
+await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

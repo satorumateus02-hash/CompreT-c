@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Criar Cadastro";
+}
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-md-6">
+        <h2 class="text-center">Criar Cadastro</h2>
+
+        @if(TempData["RegErrors"] != null) {
+            <div class="alert alert-danger">@TempData["RegErrors"]</div>
+        }
+
+        <form asp-action="Register" asp-controller="Home" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label">Usuário</label>
+                <input name="Usuario" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Senha</label>
+                <input name="Senha" type="password" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Confirmar Senha</label>
+                <input name="ConfirmarSenha" type="password" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email para recuperação</label>
+                <input name="Email" type="email" class="form-control" />
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <button type="submit" class="btn btn-success">Cadastrar</button>
+                <a asp-action="Login" asp-controller="Home" class="text-decoration-none">Voltar para Login</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

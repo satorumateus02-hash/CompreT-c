@@ -1,0 +1,38 @@
+@model HelpDeskMvc.Models.Produto
+
+@{
+    ViewData["Title"] = "Detalhes do Produto";
+}
+
+<div class="container mt-4">
+    <h1>Detalhes</h1>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-3">Nome</dt>
+        <dd class="col-sm-9">@Model.Nome</dd>
+
+        <dt class="col-sm-3">Descrição</dt>
+        <dd class="col-sm-9">@Model.Descricao</dd>
+
+        <dt class="col-sm-3">Preço</dt>
+        <dd class="col-sm-9">@Model.Preco.ToString("C")</dd>
+
+        <dt class="col-sm-3">Quantidade</dt>
+        <dd class="col-sm-9">@Model.Quantidade</dd>
+
+        <dt class="col-sm-3">Fornecedor</dt>
+        <dd class="col-sm-9">@Model.Fornecedor</dd>
+
+        <dt class="col-sm-3">Categoria</dt>
+        <dd class="col-sm-9">@Model.Categoria</dd>
+
+        <dt class="col-sm-3">Data Cadastro</dt>
+        <dd class="col-sm-9">@Model.DataCadastro.ToString("dd/MM/yyyy HH:mm")</dd>
+    </dl>
+
+    <div>
+        <a asp-controller="Estoque" asp-action="Editar" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+        <a asp-controller="Estoque" asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>

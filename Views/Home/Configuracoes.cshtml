@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "Configurações";
+    var cadastroPermitido = ViewBag.CadastroPermitido ?? false;
+}
+
+<div class="container mt-4">
+    <h2>Configurações</h2>
+
+    @if (TempData["ConfiguracaoMensagem"] != null)
+    {
+        <div class="alert alert-success">@TempData["ConfiguracaoMensagem"]</div>
+    }
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Permissões de Cadastro</h5>
+
+            <div class="d-flex align-items-center mt-3 mb-3">
+                <div class="px-3 py-2 rounded @(cadastroPermitido ? "bg-success text-white" : "bg-danger text-white")" style="min-width: 150px; text-align: center; font-weight: 600;">
+                    @(cadastroPermitido ? "Liberado" : "Bloqueado")
+                </div>
+                <span class="ms-3">
+                    @(cadastroPermitido ? "Cadastro de usuários está permitido." : "Cadastro de usuários está bloqueado.")
+                </span>
+            </div>
+
+            <form asp-action="PermitirCadastro" asp-controller="Home" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-primary">Permitir cadastrar no usuário</button>
+            </form>
+        </div>
+    </div>
+</div>

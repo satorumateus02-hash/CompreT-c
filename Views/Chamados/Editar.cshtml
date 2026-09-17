@@ -1,0 +1,71 @@
+@model HelpDeskMvc.Models.Chamado
+
+@{
+    ViewData["Title"] = "Editar Solicitação";
+}
+
+<div class="container mt-4">
+    <h1>Editar Solicitação</h1>
+    <hr />
+
+    <form asp-action="Editar" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Titulo" class="form-label">Título</label>
+            <input asp-for="Titulo" class="form-control" />
+            <span asp-validation-for="Titulo" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Descricao" class="form-label">Descrição</label>
+            <textarea asp-for="Descricao" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Status" class="form-label">Status</label>
+            <select asp-for="Status" class="form-select">
+                <option value="Aberto">Aberto</option>
+                <option value="Em atendimento">Em atendimento</option>
+                <option value="Fechado">Fechado</option>
+            </select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ClienteNome" class="form-label">Nome do cliente</label>
+            <input asp-for="ClienteNome" class="form-control" />
+            <span asp-validation-for="ClienteNome" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Telefone" class="form-label">Telefone</label>
+            <input asp-for="Telefone" class="form-control" />
+            <span asp-validation-for="Telefone" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Endereco" class="form-label">Endereço</label>
+            <input asp-for="Endereco" class="form-control" />
+            <span asp-validation-for="Endereco" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Complemento" class="form-label">Complemento</label>
+            <input asp-for="Complemento" class="form-control" />
+            <span asp-validation-for="Complemento" class="text-danger"></span>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary">Salvar alterações</button>
+            <a asp-controller="Chamados" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

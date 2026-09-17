@@ -1,0 +1,67 @@
+@model List<HelpDeskMvc.Models.Chamado>
+
+@{
+    ViewData["Title"] = "Garantia De Produtos";
+}
+
+<div class="container mt-4">
+    <h1>Garantia De Produtos</h1>
+    <hr />
+
+    <div class="mb-3">
+        <a asp-controller="Chamados" asp-action="Criar" class="btn btn-success">
+            Solicitar garantia e devolução
+        </a>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Telefone</th>
+                <th>Endereço</th>
+                <th>Complemento</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var chamado in Model)
+            {
+                <tr>
+                    <td>@(string.IsNullOrEmpty(chamado.ClienteNome) ? chamado.Titulo : chamado.ClienteNome)</td>
+                    <td>@chamado.Telefone</td>
+                    <td>@chamado.Endereco</td>
+                    <td>@chamado.Complemento</td>
+                    <td>
+                        <a asp-controller="Chamados"
+                           asp-action="Detalhes"
+                           asp-route-id="@chamado.Id"
+                           class="btn btn-primary btn-sm">
+                            Ver Detalhes
+                        </a>
+                        <a asp-controller="Chamados"
+                           asp-action="Editar"
+                           asp-route-id="@chamado.Id"
+                           class="btn btn-warning btn-sm">
+                            Editar
+                        </a>
+                        <form asp-controller="Chamados"
+                              asp-action="Excluir"
+                              asp-route-id="@chamado.Id"
+                              method="post"
+                              class="d-inline">
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Deseja excluir esta solicitação?');">
+                                Excluir
+                            </button>
+                            @Html.AntiForgeryToken()
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

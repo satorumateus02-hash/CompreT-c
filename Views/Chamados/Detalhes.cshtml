@@ -1,0 +1,67 @@
+@model HelpDeskMvc.Models.Chamado
+
+@{
+    ViewData["Title"] = "Detalhes da Solicitação";
+}
+
+<div class="container mt-4"> <h2>Detalhes da Solicitação</h2> <hr />
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        Informações da Solicitação
+    </div>
+
+    <div class="card-body">
+
+        <div class="mb-3">
+            <strong>Cliente:</strong>
+            <p class="fs-5">@(string.IsNullOrWhiteSpace(Model.ClienteNome) ? "Não informado" : Model.ClienteNome)</p>
+        </div>
+
+        <div class="mb-3">
+            <strong>Telefone:</strong>
+            <p class="fs-5">@(string.IsNullOrWhiteSpace(Model.Telefone) ? "Não informado" : Model.Telefone)</p>
+        </div>
+
+        <div class="mb-3">
+            <strong>Endereço:</strong>
+            <p class="fs-5">@(string.IsNullOrWhiteSpace(Model.Endereco) ? "Não informado" : Model.Endereco)</p>
+        </div>
+
+        <div class="mb-3">
+            <strong>Complemento:</strong>
+            <p class="fs-5">@(string.IsNullOrWhiteSpace(Model.Complemento) ? "Não informado" : Model.Complemento)</p>
+        </div>
+
+        <div class="mb-3">
+            <strong>Status:</strong>
+            <p class="fs-5">@Model.Status</p>
+        </div>
+
+        <div class="mb-3">
+            <strong>Data de abertura:</strong>
+            <p class="fs-5">@Model.DataAbertura.ToString("dd/MM/yyyy HH:mm")</p>
+        </div>
+
+        <div class="mb-3">
+            <strong>Descrição:</strong>
+            <p class="fs-5">@Model.Descricao</p>
+        </div>
+
+    </div>
+
+    <div class="card-footer d-flex gap-2">
+        <a asp-controller="Chamados"
+           asp-action="Editar"
+           asp-route-id="@Model.Id"
+           class="btn btn-warning">
+            Editar
+        </a>
+        <a asp-controller="Chamados"
+           asp-action="Index"
+           class="btn btn-secondary">
+            Voltar para Solicitações
+        </a>
+    </div>
+</div>
+
+</div>
