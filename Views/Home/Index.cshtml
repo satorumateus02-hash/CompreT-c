@@ -1,12 +1,37 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var exibirFormularioCodigo = ViewBag.ExibirFormularioCodigo ?? false;
+    var codigoErro = ViewBag.CodigoErro as string;
 }
 
 @if(ViewBag.Nome != null) {
     <div class="alert alert-info">Bem-vindo, <strong>@ViewBag.Nome</strong> (@ViewBag.Usuario)</div>
 }
 
-<div class="text-center">
-    <h1 class="display-4">CompreTéc</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@if (exibirFormularioCodigo)
+{
+    <div class="card mx-auto mt-4" style="max-width: 420px;">
+        <div class="card-body">
+            <h5 class="card-title text-center mb-3">Validação de acesso</h5>
+
+            @if (!string.IsNullOrWhiteSpace(codigoErro))
+            {
+                <div class="alert alert-danger">@codigoErro</div>
+            }
+
+            <form asp-action="ValidarCodigo" asp-controller="Home" method="post">
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label class="form-label">Digite o código de 5 dígitos</label>
+                    <input type="text" name="codigo" class="form-control" maxlength="5" pattern="\d{5}" required />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Confirmar acesso</button>
+            </form>
+        </div>
+    </div>
+}
+
+<div class="text-center home-hero">
+    <img src="~/images/imagem.png" alt="Logo" class="home-logo" />
 </div>

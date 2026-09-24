@@ -1,6 +1,8 @@
 @{
     ViewData["Title"] = "Configurações";
     var cadastroPermitido = ViewBag.CadastroPermitido ?? false;
+    var usuarios = ViewBag.Usuarios as List<HelpDeskMvc.Models.Usuario> ?? new List<HelpDeskMvc.Models.Usuario>();
+    var navItens = ViewBag.NavItens as string[] ?? new[] { "Home", "Chamados", "Estoque", "Configuracoes" };
 }
 
 <div class="container mt-4">
@@ -17,7 +19,7 @@
 
             <div class="d-flex align-items-center mt-3 mb-3">
                 <div class="px-3 py-2 rounded @(cadastroPermitido ? "bg-success text-white" : "bg-danger text-white")" style="min-width: 150px; text-align: center; font-weight: 600;">
-                    @(cadastroPermitido ? "Liberado" : "Bloqueado")
+                    @(cadastroPermitido ? "Permitido" : "Bloqueado")
                 </div>
                 <span class="ms-3">
                     @(cadastroPermitido ? "Cadastro de usuários está permitido." : "Cadastro de usuários está bloqueado.")
@@ -26,8 +28,60 @@
 
             <form asp-action="PermitirCadastro" asp-controller="Home" method="post">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-primary">Permitir cadastrar no usuário</button>
+                <button type="submit" class="btn @(cadastroPermitido ? "btn-success" : "btn-danger")">
+                    @(cadastroPermitido ? "Permitir Cadastro" : "Permitir Cadastro")
+                </button>
             </form>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Usuários cadastrados</h5>
+
+            @if (!usuarios.Any())
+            {
+                <p class="text-muted mb-0">Nenhum usuário adicional cadastrado.</p>
+            }
+            else
+            {
+                foreach (var usuario in usuarios)
+                {
+                    <div class="border rounded p-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <div>
+                                <strong>@usuario.UserName</strong><br />
+                                <small>Código: @usuario.CodigoAcesso</small>
+                            </div>
+                            <div class="text-muted">@usuario.Email</div>
+                        </div>
+
+                        <form asp-action="SalvarPermissoes" asp-controller="Home" method="post" class="mt-3">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="userName" value="@usuario.UserName" />
+
+                            <div class="row g-2">
+                                @foreach (var item in navItens)
+                                {
+                                    var permissoesUsuario = (usuario.PermissoesNav ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                                    var checkedValue = permissoesUsuario.Contains(item, StringComparer.OrdinalIgnoreCase);
+
+                                    <div class="col-md-3">
+                                        <label class="d-flex align-items-center gap-2 border rounded p-2 w-100">
+                                            <input type="checkbox" name="permissoes" value="@item" checked="@(checkedValue ? "checked" : null)" />
+                                            @item
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="mt-3">
+                                <button type="submit" class="btn btn-primary btn-sm">Salvar permissões</button>
+                            </div>
+                        </form>
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>

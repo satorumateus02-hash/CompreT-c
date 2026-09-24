@@ -7,32 +7,42 @@
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/HelpDeskMvc.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        @{ var user = Context.Session.GetString("Usuario"); }
+        @{ var user = Context.Session.GetString("Usuario"); var permissoesNav = Context.Session.GetString("PermissoesNav"); var permissoes = string.IsNullOrWhiteSpace(permissoesNav) ? new[] { "Home" } : permissoesNav.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries); }
         @if (!string.IsNullOrEmpty(user))
         {
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CompreTéc</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="~/images/imagem.png" alt="Logo" class="nav-logo" />
+                    </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Chamados" asp-action="Criar">Garantia e Devoluções</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Estoque" asp-action="Index">Estoque</a>
-                            </li>
-                            @if (user == "admin")
+                            @if (user == "admin" || permissoes.Contains("Home", StringComparer.OrdinalIgnoreCase))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                            }
+                            @if (user == "admin" || permissoes.Contains("Chamados", StringComparer.OrdinalIgnoreCase))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chamados" asp-action="Criar">Garantia e Devoluções</a>
+                                </li>
+                            }
+                            @if (user == "admin" || permissoes.Contains("Estoque", StringComparer.OrdinalIgnoreCase))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Estoque" asp-action="Index">Estoque</a>
+                                </li>
+                            }
+                            @if (user == "admin" || permissoes.Contains("Configuracoes", StringComparer.OrdinalIgnoreCase))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Configuracoes">Configurações</a>
@@ -66,8 +76,13 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - HelpDeskMvc - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span>&copy; 2026 - CompreTec</span>
+            <div class="footer-links">
+                <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidade</a>
+                <span> - </span>
+                <span>Suporte para atendimento e gestão de estoque.</span>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
