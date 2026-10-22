@@ -19,23 +19,83 @@ public class EstoqueController : Controller
         _context = context;
     }
 
-    // LISTAR PRODUTOS (com busca simples)
-    public async Task<IActionResult> Index(string? search)
+    // LISTAR PRODUTOS COM BUSCA E FILTROS
+    public async Task<IActionResult> Index(
+        string? search,
+        string? categoria,
+        string? fornecedor,
+        decimal? precoMin,
+        decimal? precoMax,
+        int? quantidadeMin,
+        bool? estoqueBaixo,
+        string? ordenar)
     {
         if (!UsuarioLogado())
             return RedirectToAction("Login", "Home");
 
-        var query = _context.Produtos.AsQueryable();
+        var busca = search?.Trim();
+        var categoriaFiltro = categoria?.Trim();
+        var fornecedorFiltro = fornecedor?.Trim();
+        var ordem = string.IsNullOrWhiteSpace(ordenar) ? "nome" : ordenar.Trim();
 
-        if (!string.IsNullOrWhiteSpace(search))
+        IQueryable<Produto> query = _context.Produtos
+            .AsNoTracking()
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(busca))
         {
-            query = query.Where(p => EF.Functions.Like(p.Nome, $"%{search}%") || EF.Functions.Like(p.Categoria ?? string.Empty, $"%{search}%"));
-            ViewData["Search"] = search;
+            query = query.Where(p =>
+                EF.Functions.Like(p.Nome, $"%{busca}%") ||
+                EF.Functions.Like(p.Descricao ?? string.Empty, $"%{busca}%") ||
+                EF.Functions.Like(p.Categoria ?? string.Empty, $"%{busca}%") ||
+                EF.Functions.Like(p.Fornecedor ?? string.Empty, $"%{busca}%"));
         }
 
-        var produtos = await query
-            .OrderBy(p => p.Nome)
-            .ToListAsync();
+        if (!string.IsNullOrWhiteSpace(categoriaFiltro))
+        {
+            query = query.Where(p => EF.Functions.Like(p.Categoria ?? string.Empty, $"%{categoriaFiltro}%"));
+        }
+
+        if (!string.IsNullOrWhiteSpace(fornecedorFiltro))
+        {
+            query = query.Where(p => EF.Functions.Like(p.Fornecedor ?? string.Empty, $"%{fornecedorFiltro}%"));
+        }
+
+        if (precoMin.HasValue)
+        {
+            query = query.Where(p => p.Preco >= precoMin.Value);
+        }
+
+        if (precoMax.HasValue)
+        {
+            query = query.Where(p => p.Preco <= precoMax.Value);
+        }
+
+        if (quantidadeMin.HasValue)
+        {
+            query = query.Where(p => p.Quantidade >= quantidadeMin.Value);
+        }
+
+        if (estoqueBaixo == true)
+        {
+            query = query.Where(p => p.Quantidade <= 5);
+        }
+
+        var produtos = ordem.ToLowerInvariant() switch
+        {
+            "preco" => await query.OrderBy(p => p.Preco).ToListAsync(),
+            "data" => await query.OrderByDescending(p => p.DataCadastro).ToListAsync(),
+            _ => await query.OrderBy(p => p.Nome).ToListAsync()
+        };
+
+        ViewData["Search"] = busca;
+        ViewData["Categoria"] = categoriaFiltro;
+        ViewData["Fornecedor"] = fornecedorFiltro;
+        ViewData["PrecoMin"] = precoMin;
+        ViewData["PrecoMax"] = precoMax;
+        ViewData["QuantidadeMin"] = quantidadeMin;
+        ViewData["EstoqueBaixo"] = estoqueBaixo == true;
+        ViewData["Ordenar"] = ordem;
 
         return View(produtos);
     }

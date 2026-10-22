@@ -33,7 +33,7 @@
                             @if (user == "admin" || permissoes.Contains("Chamados", StringComparer.OrdinalIgnoreCase))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chamados" asp-action="Criar">Garantia e Devoluções</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chamados" asp-action="Index">Chamados</a>
                                 </li>
                             }
                             @if (user == "admin" || permissoes.Contains("Estoque", StringComparer.OrdinalIgnoreCase))

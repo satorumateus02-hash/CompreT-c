@@ -4,6 +4,10 @@ namespace HelpDeskMvc.Models
 {
 public class CriarChamadoViewModel
 {
+    [Required(ErrorMessage = "Informe um título.")]
+    [StringLength(150, ErrorMessage = "O título deve ter no máximo 150 caracteres.")]
+    public string Titulo { get; set; } = string.Empty;
+
     [Required(ErrorMessage = "Informe uma descrição.")]
     [StringLength(2000, ErrorMessage = "A descrição deve ter no máximo 2000 caracteres.")]
     public string Descricao { get; set; } = string.Empty;

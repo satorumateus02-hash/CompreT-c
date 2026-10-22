@@ -23,16 +23,62 @@ namespace HelpDeskMvc.Controllers
             _context = context;
         }
 
-        // 📋 LISTAGEM
-        public async Task<IActionResult> Index()
+        // 📋 LISTAGEM COM BUSCA E FILTROS
+        public async Task<IActionResult> Index(string? busca, string? status)
         {
             if (!UsuarioLogado())
                 return RedirectToAction("Login", "Home");
 
-            // 🔵 Busca todos os chamados no banco
-            var chamados = await _context.Chamados.ToListAsync();
+            var textoBusca = busca?.Trim();
+            var statusSelecionado = NormalizarStatus(status);
 
-            return View(chamados);
+            IQueryable<Chamado> query = _context.Chamados
+                .AsNoTracking()
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(textoBusca))
+            {
+                query = query.Where(c =>
+                    c.Titulo.Contains(textoBusca) ||
+                    c.Descricao.Contains(textoBusca));
+            }
+
+            if (!string.IsNullOrWhiteSpace(statusSelecionado))
+            {
+                query = query.Where(c => c.Status == statusSelecionado);
+            }
+
+            var viewModel = new ListarChamadosViewModel
+            {
+                Busca = textoBusca,
+                Status = statusSelecionado,
+                Chamados = await query
+                    .OrderByDescending(c => c.DataAbertura)
+                    .ToListAsync()
+            };
+
+            ViewData["Busca"] = textoBusca;
+            ViewData["Status"] = statusSelecionado;
+
+            return View(viewModel);
+        }
+
+        private static string? NormalizarStatus(string? status)
+        {
+            if (string.IsNullOrWhiteSpace(status))
+                return null;
+
+            var valor = status.Trim();
+
+            return valor.ToLowerInvariant() switch
+            {
+                "aberto" => "Aberto",
+                "emandamento" or "em andamento" or "em atendimento" => "Em atendimento",
+                "resolvido" => "Resolvido",
+                "cancelado" => "Cancelado",
+                "fechado" => "Fechado",
+                _ => null
+            };
         }
 
         // 🔎 DETALHES
@@ -73,7 +119,7 @@ namespace HelpDeskMvc.Controllers
 
             var chamado = new Chamado
             {
-                Titulo = model.ClienteNome,
+                Titulo = string.IsNullOrWhiteSpace(model.Titulo) ? model.ClienteNome : model.Titulo,
                 Descricao = model.Descricao,
                 Status = "Aberto",
                 DataAbertura = DateTime.Now,
@@ -186,7 +232,7 @@ namespace HelpDeskMvc.Controllers
 
             var chamado = new Chamado
             {
-                Titulo = model.ClienteNome,
+                Titulo = string.IsNullOrWhiteSpace(model.Titulo) ? model.ClienteNome : model.Titulo,
                 Descricao = model.Descricao,
                 Status = "Aberto",
                 DataAbertura = DateTime.Now,
