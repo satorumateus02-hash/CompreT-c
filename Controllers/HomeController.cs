@@ -131,11 +131,15 @@ public class HomeController : Controller
         return View();
     }
 
-    // Exibe a tela de login. Se alguém já estiver logado, ele é enviado para a home.
-    public IActionResult Login()
+    // Exibe a tela de login. Quando a rota raiz é acessada, a sessão antiga é limpa para
+    // garantir que a aplicação volte para a tela de autenticação em vez de abrir a home.
+    public async Task<IActionResult> Login()
     {
         if (UsuarioLogado())
-            return RedirectToAction(nameof(Index));
+        {
+            await _signInManager.SignOutAsync();
+            HttpContext.Session.Clear();
+        }
 
         DefinirCadastroPermitido(true);
         ViewBag.CadastroPermitido = true;

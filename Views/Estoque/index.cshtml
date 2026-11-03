@@ -109,12 +109,12 @@
                         <td>@produto.Categoria</td>
                         <td>@produto.DataCadastro.ToString("dd/MM/yyyy HH:mm")</td>
                         <td>
-                            <div class="d-flex gap-2 flex-wrap">
-                                <a asp-controller="Estoque" asp-action="Detalhes" asp-route-id="@produto.Id" class="btn btn-primary btn-sm">Ver</a>
-                                <a asp-controller="Estoque" asp-action="Editar" asp-route-id="@produto.Id" class="btn btn-warning btn-sm">Editar</a>
+                            <div class="d-flex gap-2 flex-wrap action-buttons">
+                                <a asp-controller="Estoque" asp-action="Detalhes" asp-route-id="@produto.Id" class="btn btn-primary action-btn">Ver</a>
+                                <a asp-controller="Estoque" asp-action="Editar" asp-route-id="@produto.Id" class="btn btn-warning action-btn">Editar</a>
                                 <form asp-controller="Estoque" asp-action="Excluir" asp-route-id="@produto.Id" method="post" class="d-inline">
                                     <input type="hidden" name="id" value="@produto.Id" />
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Confirma exclusão deste produto?');">Excluir</button>
+                                    <button type="submit" class="btn btn-danger action-btn" onclick="return confirm('Confirma exclusão deste produto?');">Excluir</button>
                                     @Html.AntiForgeryToken()
                                 </form>
                             </div>

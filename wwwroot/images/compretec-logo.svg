@@ -1,0 +1,48 @@
+<svg width="1600" height="420" viewBox="0 0 1600 420" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="tealGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2ED3E6"/>
+      <stop offset="100%" stop-color="#0D9DB9"/>
+    </linearGradient>
+    <linearGradient id="charcoalGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2E3946"/>
+      <stop offset="100%" stop-color="#171E29"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(0,10)">
+    <path d="M220 55L355 135V285L220 365L85 285V135L220 55Z" fill="url(#tealGradient)" opacity="0.96"/>
+    <path d="M220 90L320 150V270L220 330L120 270V150L220 90Z" fill="#E9F9FD" fill-opacity="0.12"/>
+
+    <circle cx="220" cy="210" r="78" fill="url(#charcoalGradient)"/>
+
+    <g>
+      <g fill="url(#charcoalGradient)">
+        <rect x="176" y="10" width="86" height="40" rx="16"/>
+        <rect x="176" y="370" width="86" height="40" rx="16"/>
+        <rect x="4" y="176" width="86" height="40" rx="16"/>
+        <rect x="330" y="176" width="86" height="40" rx="16"/>
+        <rect x="46" y="46" width="76" height="38" rx="14" transform="rotate(-45 46 46)"/>
+        <rect x="296" y="46" width="76" height="38" rx="14" transform="rotate(45 296 46)"/>
+        <rect x="46" y="332" width="76" height="38" rx="14" transform="rotate(45 46 332)"/>
+        <rect x="296" y="332" width="76" height="38" rx="14" transform="rotate(-45 296 332)"/>
+      </g>
+
+      <circle cx="220" cy="210" r="52" fill="url(#tealGradient)"/>
+      <circle cx="220" cy="210" r="18" fill="#1F2732"/>
+      <path d="M220 132C165 132 121 176 121 231C121 286 165 330 220 330C275 330 319 286 319 231C319 176 275 132 220 132ZM220 154C262 154 296 188 296 231C296 274 262 308 220 308C178 308 144 274 144 231C144 188 178 154 220 154Z" fill="#1F2732" opacity="0.25"/>
+    </g>
+
+    <g opacity="0.9">
+      <path d="M220 150L247 177L220 204L193 177L220 150Z" fill="#EFFAFF"/>
+      <path d="M220 204L247 231L220 258L193 231L220 204Z" fill="#E5F4F8"/>
+      <path d="M220 258L247 285L220 312L193 285L220 258Z" fill="#D8EDF6"/>
+    </g>
+  </g>
+
+  <g transform="translate(430,70)">
+    <text x="0" y="220" font-size="190" font-weight="700" font-family="Segoe UI, Arial, sans-serif" fill="#0F5F75" letter-spacing="-4">Compre</text>
+    <text x="760" y="220" font-size="190" font-weight="700" font-family="Segoe UI, Arial, sans-serif" fill="#1F2732" letter-spacing="-4">Tec</text>
+    <rect x="0" y="250" width="1080" height="12" rx="6" fill="#17B3C8" opacity="0.9"/>
+  </g>
+</svg>

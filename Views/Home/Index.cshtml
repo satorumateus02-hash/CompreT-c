@@ -10,8 +10,8 @@
 
 @if (exibirFormularioCodigo)
 {
-    <div class="card mx-auto mt-4" style="max-width: 420px;">
-        <div class="card-body">
+    <div class="card mx-auto mt-4" style="max-width: 420px; border-radius: 1rem; border: 1px solid rgba(148, 163, 184, 0.25); box-shadow: 0 18px 35px rgba(15, 23, 42, 0.06);">
+        <div class="card-body p-4">
             <h5 class="card-title text-center mb-3">Validação de acesso</h5>
 
             @if (!string.IsNullOrWhiteSpace(codigoErro))
@@ -33,5 +33,102 @@
 }
 
 <div class="text-center home-hero">
-    <img src="~/images/imagem.png" alt="Logo" class="home-logo" />
+    <img src="~/images/compretec-logo.svg" alt="Logo CompreTec" class="home-logo" />
 </div>
+
+<section class="module-section">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="module-stack">
+                <article class="module-card">
+                    <div class="module-badge">1</div>
+                    <h3>Chamados</h3>
+                    <p>Controle de solicitações, atendimento e acompanhamento em sequência clara.</p>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-badge">2</div>
+                    <h3>Estoque</h3>
+                    <p>Organize produtos, movimentações e disponibilidade com uma visão mais objetiva.</p>
+                </article>
+
+                <article class="module-card">
+                    <div class="module-badge">3</div>
+                    <h3>Configurações</h3>
+                    <p>Gerencie permissões, usuários e regras de acesso em um painel mais sofisticado.</p>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="info-section">
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="info-card highlight">
+                <span class="info-kicker">Visão geral</span>
+                <h3>Mais controle, menos retrabalho</h3>
+                <p>O CompreTec centraliza o atendimento e o gerenciamento de estoques em um único ambiente, reduzindo erros manuais e acelerando o dia a dia da operação.</p>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="info-card">
+                        <div class="metric">24/7</div>
+                        <h4>Disponibilidade</h4>
+                        <p>Monitoramento contínuo de solicitações e movimentações.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-card">
+                        <div class="metric">3x</div>
+                        <h4>Mais rápido</h4>
+                        <p>Processos mais ágeis para equipe técnica e administrativa.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-card">
+                        <div class="metric">100%</div>
+                        <h4>Organização</h4>
+                        <p>Estrutura clara para registrar, consultar e controlar itens.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-banner">
+    <div>
+        <span class="section-tag">Operação inteligente</span>
+        <h3>Organize sua rotina com mais clareza e menos esforço.</h3>
+    </div>
+    <div class="cta-actions">
+        <a asp-controller="Chamados" asp-action="Index" class="btn btn-primary">Abrir chamados</a>
+        <a asp-controller="Estoque" asp-action="Index" class="btn btn-outline-primary">Ver estoque</a>
+    </div>
+</section>
+
+<section class="feature-strip">
+    <div class="feature-title-wrap">
+        <span class="section-tag">Recursos</span>
+        <h3>Ferramentas pensadas para facilitar a operação</h3>
+    </div>
+
+    <div class="feature-grid">
+        <article>
+            <h4>Atendimento centralizado</h4>
+            <p>Registre, acompanhe e finalize chamados sem perder o histórico das solicitações.</p>
+        </article>
+        <article>
+            <h4>Controle de estoque</h4>
+            <p>Veja quantidade, categoria e fornecedor com filtros rápidos e organização visual.</p>
+        </article>
+        <article>
+            <h4>Permissões inteligentes</h4>
+            <p>Defina acessos por perfil para manter a segurança e a organização da operação.</p>
+        </article>
+    </div>
+</section>
