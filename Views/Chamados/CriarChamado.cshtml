@@ -1,0 +1,76 @@
+@model HelpDeskMvc.Models.AbrirChamadoViewModel
+
+@{
+    ViewData["Title"] = "Criar chamado";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <section class="form-card">
+            <h1 class="form-title">Criar chamado</h1>
+            <p class="text-muted">Preencha as informações para registrar o chamado.</p>
+
+            <form asp-action="CriarChamado" method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Titulo" class="form-label">Título</label>
+                    <input asp-for="Titulo" class="form-control" maxlength="150"
+                           placeholder="Ex.: Computador não liga" autofocus />
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ClienteNome" class="form-label">Cliente</label>
+                    <input asp-for="ClienteNome" class="form-control" maxlength="200"
+                           placeholder="Nome do cliente" />
+                    <span asp-validation-for="ClienteNome" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Telefone" class="form-label">Telefone</label>
+                    <input asp-for="Telefone" class="form-control" maxlength="50"
+                           type="tel" placeholder="(00) 00000-0000" />
+                    <span asp-validation-for="Telefone" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Status" class="form-label">Status</label>
+                    <select asp-for="Status" class="form-select">
+                        <option value="Aberto">Aberto</option>
+                        <option value="Em atendimento">Em atendimento</option>
+                        <option value="Resolvido">Resolvido</option>
+                        <option value="Cancelado">Cancelado</option>
+                        <option value="Fechado">Fechado</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DataAbertura" class="form-label">Data de abertura</label>
+                    <input class="form-control" type="datetime-local"
+                           value="@Model.DataAbertura.ToString("yyyy-MM-ddTHH:mm")" readonly />
+                    <small class="form-text text-muted">Preenchida automaticamente ao registrar o chamado.</small>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Descricao" class="form-label">Descrição do problema ou solicitação</label>
+                    <textarea asp-for="Descricao" class="form-control" rows="6" maxlength="2000"
+                              placeholder="Descreva o que aconteceu, o impacto e qualquer informação útil para o atendimento."></textarea>
+                    <span asp-validation-for="Descricao" class="text-danger"></span>
+                    <small class="form-text text-muted">Máximo de 2000 caracteres.</small>
+                </div>
+
+                <div class="form-actions">
+                    <a asp-controller="Chamados" asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Registrar chamado</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -4,64 +4,71 @@
     ViewData["Title"] = "Detalhes da Solicitação";
 }
 
-<div class="container mt-4"> <h2>Detalhes da Solicitação</h2> <hr />
-<div class="card shadow-sm">
-    <div class="card-header bg-primary text-white">
-        Informações da Solicitação
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <h1 class="form-title">Detalhes do chamado</h1>
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                @Model.Titulo
+            </div>
+
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <strong>Status</strong>
+                        <p class="fs-5">@Model.Status</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong>Data de abertura</strong>
+                        <p class="fs-5">@Model.DataAbertura.ToString("dd/MM/yyyy HH:mm")</p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <strong>Descrição</strong>
+                    <p class="fs-5 text-break">@Model.Descricao</p>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.ClienteNome)
+                    || !string.IsNullOrWhiteSpace(Model.Telefone)
+                    || !string.IsNullOrWhiteSpace(Model.Endereco)
+                    || !string.IsNullOrWhiteSpace(Model.Complemento))
+                {
+                    <hr />
+                    <h2 class="h5">Dados da garantia</h2>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ClienteNome))
+                    {
+                        <p><strong>Cliente:</strong> @Model.ClienteNome</p>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Telefone))
+                    {
+                        <p><strong>Telefone:</strong> @Model.Telefone</p>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Endereco))
+                    {
+                        <p><strong>Endereço:</strong> @Model.Endereco</p>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Complemento))
+                    {
+                        <p><strong>Complemento:</strong> @Model.Complemento</p>
+                    }
+                }
+            </div>
+
+            <div class="card-footer d-flex gap-2">
+                <a asp-controller="Chamados"
+                   asp-action="Editar"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-warning">
+                    Editar
+                </a>
+                <a asp-controller="Chamados"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Voltar para chamados
+                </a>
+            </div>
+        </div>
     </div>
-
-    <div class="card-body">
-
-        <div class="mb-3">
-            <strong>Cliente:</strong>
-            <p class="fs-5">@(string.IsNullOrWhiteSpace(Model.ClienteNome) ? "Não informado" : Model.ClienteNome)</p>
-        </div>
-
-        <div class="mb-3">
-            <strong>Telefone:</strong>
-            <p class="fs-5">@(string.IsNullOrWhiteSpace(Model.Telefone) ? "Não informado" : Model.Telefone)</p>
-        </div>
-
-        <div class="mb-3">
-            <strong>Endereço:</strong>
-            <p class="fs-5">@(string.IsNullOrWhiteSpace(Model.Endereco) ? "Não informado" : Model.Endereco)</p>
-        </div>
-
-        <div class="mb-3">
-            <strong>Complemento:</strong>
-            <p class="fs-5">@(string.IsNullOrWhiteSpace(Model.Complemento) ? "Não informado" : Model.Complemento)</p>
-        </div>
-
-        <div class="mb-3">
-            <strong>Status:</strong>
-            <p class="fs-5">@Model.Status</p>
-        </div>
-
-        <div class="mb-3">
-            <strong>Data de abertura:</strong>
-            <p class="fs-5">@Model.DataAbertura.ToString("dd/MM/yyyy HH:mm")</p>
-        </div>
-
-        <div class="mb-3">
-            <strong>Descrição:</strong>
-            <p class="fs-5">@Model.Descricao</p>
-        </div>
-
-    </div>
-
-    <div class="card-footer d-flex gap-2">
-        <a asp-controller="Chamados"
-           asp-action="Editar"
-           asp-route-id="@Model.Id"
-           class="btn btn-warning">
-            Editar
-        </a>
-        <a asp-controller="Chamados"
-           asp-action="Index"
-           class="btn btn-secondary">
-            Voltar para Solicitações
-        </a>
-    </div>
-</div>
-
 </div>

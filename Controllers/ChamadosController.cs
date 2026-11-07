@@ -106,6 +106,17 @@ namespace HelpDeskMvc.Controllers
             return View();
         }
 
+        public IActionResult CriarChamado()
+        {
+            if (!UsuarioLogado())
+                return RedirectToAction("Login", "Home");
+
+            return View(new AbrirChamadoViewModel
+            {
+                DataAbertura = DateTime.Now
+            });
+        }
+
         // 📝 SALVAR (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -117,17 +128,63 @@ namespace HelpDeskMvc.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
+            return await SalvarChamado(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CriarChamado(AbrirChamadoViewModel model)
+        {
+            if (!UsuarioLogado())
+                return RedirectToAction("Login", "Home");
+
+            model.DataAbertura = DateTime.Now;
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            return await SalvarChamado(
+                model.Titulo,
+                model.Descricao,
+                model.ClienteNome,
+                model.Telefone,
+                endereco: null,
+                complemento: null,
+                status: model.Status);
+        }
+
+        private async Task<IActionResult> SalvarChamado(CriarChamadoViewModel model)
+        {
+            return await SalvarChamado(
+                string.IsNullOrWhiteSpace(model.Titulo) ? model.ClienteNome : model.Titulo,
+                model.Descricao,
+                model.ClienteNome,
+                model.Telefone,
+                model.Endereco,
+                model.Complemento);
+        }
+
+        private async Task<IActionResult> SalvarChamado(
+            string titulo,
+            string descricao,
+            string? clienteNome,
+            string? telefone,
+            string? endereco,
+            string? complemento,
+            string status = "Aberto")
+        {
+            var dataAbertura = DateTime.Now;
             var chamado = new Chamado
             {
-                Titulo = string.IsNullOrWhiteSpace(model.Titulo) ? model.ClienteNome : model.Titulo,
-                Descricao = model.Descricao,
-                Status = "Aberto",
-                DataAbertura = DateTime.Now,
-                DataFechamento = null,
-                ClienteNome = model.ClienteNome,
-                Telefone = model.Telefone,
-                Endereco = model.Endereco,
-                Complemento = model.Complemento
+                Titulo = titulo,
+                Descricao = descricao,
+                Status = status,
+                DataAbertura = dataAbertura,
+                DataFechamento = status == "Fechado" ? dataAbertura : null,
+                ClienteNome = clienteNome,
+                Telefone = telefone,
+                Endereco = endereco,
+                Complemento = complemento
             };
 
             _context.Chamados.Add(chamado);

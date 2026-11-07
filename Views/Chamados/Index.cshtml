@@ -2,6 +2,10 @@
 
 @{
     ViewData["Title"] = "Chamados";
+        var usuarioEhAdmin = string.Equals(
+        Context.Session.GetString("Usuario"),
+        "admin",
+        StringComparison.OrdinalIgnoreCase);
 }
 
 <div class="container mt-4">
@@ -30,9 +34,17 @@
             <a asp-controller="Chamados" asp-action="Index" class="btn btn-outline-secondary">Limpar filtros</a>
         </form>
 
-        <a asp-controller="Chamados" asp-action="Criar" class="btn btn-success">
-            Criar Garantia
-        </a>
+        <div class="d-flex gap-2">
+            <a asp-controller="Chamados" asp-action="Criar" class="btn btn-success">
+                Criar Garantia
+            </a>
+            @if (usuarioEhAdmin)
+            {
+                <a asp-controller="Chamados" asp-action="CriarChamado" class="btn btn-primary">
+                    Criar chamado
+                </a>
+            }
+        </div>
     </div>
 
     @if (Model.Chamados.Count == 0)
